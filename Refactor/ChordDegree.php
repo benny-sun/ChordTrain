@@ -73,19 +73,19 @@ class ChordDegree
 
     public function classify(array $chords)
     {
-        $ttal = $this->labelProbabilities();
-        print_r($ttal);
+        $labelProbabilities = $this->labelProbabilities();
+        print_r($labelProbabilities);
         $classified = [];
-        foreach (array_keys($ttal) as $obj) {
-            $first = $ttal[$obj] + 1.01;
+        foreach ($labelProbabilities as $label => $probability) {
+            $first = $probability + 1.01;
             foreach ($chords as $chord) {
                 $probabilityOfChordsInLabels = $this->probabilityOfChordsInLabels();
-                $probabilityOfChordInLabel = $probabilityOfChordsInLabels[$obj][$chord] ?? null;
+                $probabilityOfChordInLabel = $probabilityOfChordsInLabels[$label][$chord] ?? null;
                 if ($probabilityOfChordInLabel) {
                     $first = $first * ($probabilityOfChordInLabel + 1.01);
                 }
             }
-            $classified[$obj] = $first;
+            $classified[$label] = $first;
         }
         print_r($classified);
     }
