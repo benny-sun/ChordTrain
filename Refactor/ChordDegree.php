@@ -14,19 +14,6 @@ class ChordDegree
         $this->songs = $musicLibrary->songs();
     }
 
-    public function allChords(): array
-    {
-        $chords = [];
-        /** @var Song $song */
-        foreach ($this->songs as $song) {
-            $chords[] = $song->chords();
-        }
-
-        $chords = $this->flattenArray($chords);
-
-        return array_values(array_unique($chords));
-    }
-
     public function labelCounts(): array
     {
         $result = [];
@@ -92,21 +79,12 @@ class ChordDegree
             foreach ($chords as $chord) {
                 $probabilityOfChordsInLabels = $this->probabilityOfChordsInLabels();
                 $probabilityOfChordInLabel = $probabilityOfChordsInLabels[$obj][$chord];
-                if (!isset($probabilityOfChordInLabel)) {
-                    $first + 1.01;
-                } else {
+                if (isset($probabilityOfChordInLabel)) {
                     $first = $first * ($probabilityOfChordInLabel + 1.01);
                 }
                 $classified[$obj] = $first;
             }
         }
         print_r($classified);
-    }
-
-    private function flattenArray(array $array): array
-    {
-        $result = [];
-        array_walk_recursive($array, function($a) use (&$result) { $result[] = $a; });
-        return $result;
     }
 }
