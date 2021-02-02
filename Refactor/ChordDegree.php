@@ -84,8 +84,8 @@ class ChordDegree
                 if ($probabilityOfChordInLabel) {
                     $first = $first * ($probabilityOfChordInLabel + 1.01);
                 }
-                $classified[$obj] = $first;
             }
+            $classified[$obj] = $first;
         }
         print_r($classified);
     }
