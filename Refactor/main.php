@@ -6,7 +6,6 @@ use Refactor\Song;
 use Refactor\ChordDegree;
 use Refactor\MusicLibrary;
 
-error_reporting(0);
 
 $musicLibrary = new MusicLibrary();
 $musicLibrary->add(new Song('imagine', ['c', 'cmaj7', 'f', 'am', 'dm', 'g', 'e7'], 'easy'));

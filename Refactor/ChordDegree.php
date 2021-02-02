@@ -16,13 +16,13 @@ class ChordDegree
 
     public function labelCounts(): array
     {
-        $result = [];
+        $labels = [];
         /** @var Song $song */
         foreach ($this->songs as $song) {
-            $result[$song->label()] += 1;
+            $labels[] = $song->label();
         }
 
-        return $result;
+        return array_count_values($labels);
     }
 
     public function getNumberOfSongs(): int
@@ -49,7 +49,9 @@ class ChordDegree
         foreach ($this->songs as $song) {
             $chords = $song->chords();
             foreach ($chords as $chord) {
-                $result[$song->label()][$chord] += 1;
+                $result[$song->label()][$chord] = isset($result[$song->label()][$chord])
+                    ? $result[$song->label()][$chord] += 1
+                    : 1;
             }
         }
 
@@ -78,8 +80,8 @@ class ChordDegree
             $first = $ttal[$obj] + 1.01;
             foreach ($chords as $chord) {
                 $probabilityOfChordsInLabels = $this->probabilityOfChordsInLabels();
-                $probabilityOfChordInLabel = $probabilityOfChordsInLabels[$obj][$chord];
-                if (isset($probabilityOfChordInLabel)) {
+                $probabilityOfChordInLabel = $probabilityOfChordsInLabels[$obj][$chord] ?? null;
+                if ($probabilityOfChordInLabel) {
                     $first = $first * ($probabilityOfChordInLabel + 1.01);
                 }
                 $classified[$obj] = $first;
